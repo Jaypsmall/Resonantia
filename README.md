@@ -4,6 +4,8 @@
 
 Creada con ❤️ por **JAYLIZ**.
 
+**https://github.com/Jaypsmall/Resonantia/releases/download/android-app/Resonantia_v1.0.4.apk**
+
 ---
 
 ## 📸 Capturas de Pantalla
