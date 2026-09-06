@@ -1,0 +1,4490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Vibrational Spectrum PRO</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+
+    --bg: #f4f5f8;
+    --card: #ffffff;
+    --soft: #f5f5f7;
+    --text: #202124;
+    --muted: #858891;
+    --line: #e5e6ea;
+
+    --accent: #7c3aed;
+
+}
+
+body.dark {
+
+    --bg: #0d0e11;
+    --card: #17181c;
+    --soft: #222329;
+    --text: #f4f4f5;
+    --muted: #989aa3;
+    --line: #303138;
+
+}
+
+html,
+body {
+
+    min-height: 100%;
+
+}
+
+body {
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    padding: 18px 10px 50px;
+
+    transition:
+        background .3s ease,
+        color .3s ease;
+
+}
+
+.app {
+
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    margin-bottom: 18px;
+
+}
+
+.top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+.eyebrow {
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+}
+
+.theme {
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    border: 1px solid var(--line);
+
+    background: var(--card);
+
+    color: var(--text);
+
+    cursor: pointer;
+
+}
+
+.title {
+
+    margin-top: 9px;
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+    letter-spacing: -1.3px;
+
+}
+
+.subtitle {
+
+    margin-top: 7px;
+
+    max-width: 620px;
+
+    font-size: 11px;
+
+    line-height: 1.55;
+
+    color: var(--muted);
+
+}
+
+.status {
+
+    margin-top: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+}
+
+.status-dot {
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #20b779;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(32,183,121,.12);
+
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card {
+
+    background: var(--card);
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,.05);
+
+}
+
+
+/* =========================================================
+   FREQUENCY HEADER
+========================================================= */
+
+.frequency-header {
+
+    padding: 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+}
+
+.frequency {
+
+    font-size: 39px;
+
+    font-weight: 800;
+
+    letter-spacing: -2px;
+
+}
+
+.unit {
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+}
+
+.zone {
+
+    text-align: right;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+}
+
+.zone strong {
+
+    display: block;
+
+    color: var(--text);
+
+    font-size: 15px;
+
+    margin-bottom: 3px;
+
+}
+
+
+/* =========================================================
+   VISUAL ENGINE
+========================================================= */
+
+.visual {
+
+    position: relative;
+
+    height: 390px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(124,58,237,.10),
+            transparent 55%
+        );
+
+    overflow: hidden;
+
+    border-top:
+        1px solid var(--line);
+
+    border-bottom:
+        1px solid var(--line);
+
+}
+
+#visualCanvas {
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    touch-action: none;
+
+}
+
+.visual-overlay {
+
+    position: absolute;
+
+    left: 14px;
+
+    top: 14px;
+
+    pointer-events: none;
+
+}
+
+.visual-mode {
+
+    padding:
+        6px 9px;
+
+    border-radius: 7px;
+
+    background:
+        rgba(255,255,255,.75);
+
+    color: #555;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    backdrop-filter:
+        blur(8px);
+
+}
+
+body.dark .visual-mode {
+
+    background:
+        rgba(20,20,24,.75);
+
+    color: #aaa;
+
+}
+
+.visual-readout {
+
+    position: absolute;
+
+    right: 14px;
+
+    top: 14px;
+
+    text-align: right;
+
+    pointer-events: none;
+
+}
+
+.readout-value {
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+.readout-label {
+
+    font-size: 7px;
+
+    color: var(--muted);
+
+    text-transform: uppercase;
+
+}
+
+
+/* =========================================================
+   CHART
+========================================================= */
+
+.chart-section {
+
+    padding:
+        18px 14px 15px;
+
+}
+
+.chart {
+
+    position: relative;
+
+    width: 100%;
+
+    padding-left: 72px;
+
+    user-select: none;
+
+    touch-action: none;
+
+}
+
+.grid {
+
+    position: absolute;
+
+    left: 72px;
+
+    right: 0;
+
+    top: 0;
+
+    bottom: 43px;
+
+    pointer-events: none;
+
+}
+
+.grid-line {
+
+    position: absolute;
+
+    top: 0;
+
+    bottom: 0;
+
+    width: 1px;
+
+    background: var(--line);
+
+}
+
+.row {
+
+    position: relative;
+
+    height: 42px;
+
+}
+
+.label {
+
+    position: absolute;
+
+    right: calc(100% + 9px);
+
+    width: 62px;
+
+    top: 14px;
+
+    text-align: right;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+}
+
+.bar-area {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 100%;
+
+}
+
+.bar {
+
+    position: absolute;
+
+    top: 8px;
+
+    height: 26px;
+
+    border-radius: 7px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+
+}
+
+.bar.active {
+
+    transform:
+        scaleY(1.16);
+
+    box-shadow:
+        0 7px 18px
+        rgba(0,0,0,.16);
+
+    z-index: 5;
+
+}
+
+
+/* COLORS */
+
+.zadquiel {
+    background: #e91e63;
+    color: white;
+}
+
+.rafael {
+    background: #b2dfdb;
+    color: #004d40;
+}
+
+.miguel {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.gabriel {
+    background: #f3e5f5;
+    color: #6a1b9a;
+}
+
+.uriel {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+
+.jofiel {
+    background: #f8bbd0;
+    color: #880e4f;
+}
+
+.chamuel {
+    background: #ffd6e7;
+    color: #880e4f;
+}
+
+
+/* =========================================================
+   MARKERS
+========================================================= */
+
+.marker {
+
+    position: absolute;
+
+    top: -7px;
+
+    bottom: 43px;
+
+    width: 2px;
+
+    background: var(--text);
+
+    z-index: 20;
+
+    pointer-events: none;
+
+}
+
+.marker::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -3px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: var(--text);
+
+}
+
+.marker-label {
+
+    position: absolute;
+
+    top: -27px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    background: var(--text);
+
+    color: var(--card);
+
+    padding: 4px 7px;
+
+    border-radius: 5px;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+.target-marker {
+
+    position: absolute;
+
+    top: 0;
+
+    bottom: 43px;
+
+    width: 1px;
+
+    border-left:
+        2px dashed var(--accent);
+
+    z-index: 15;
+
+    pointer-events: none;
+
+}
+
+.target-label {
+
+    position: absolute;
+
+    top: 12px;
+
+    left: 5px;
+
+    color: var(--accent);
+
+    font-size: 7px;
+
+    white-space: nowrap;
+
+}
+
+.axis {
+
+    position: relative;
+
+    height: 43px;
+
+    border-top:
+        1px solid var(--line);
+
+}
+
+.tick {
+
+    position: absolute;
+
+    top: 7px;
+
+    transform:
+        translateX(-50%);
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+}
+
+.axis-title {
+
+    position: absolute;
+
+    right: 0;
+
+    top: 27px;
+
+    color: var(--muted);
+
+    font-size: 7px;
+
+}
+
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.info {
+
+    margin-top: 14px;
+
+}
+
+.info-header {
+
+    padding: 17px 18px;
+
+    border-bottom:
+        1px solid var(--line);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+.info-name {
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+}
+
+.info-range {
+
+    font-size: 8px;
+
+    color: var(--muted);
+
+}
+
+.info-content {
+
+    padding: 17px 18px;
+
+}
+
+.description {
+
+    font-size: 11px;
+
+    line-height: 1.6;
+
+    color: var(--muted);
+
+    margin-bottom: 15px;
+
+}
+
+.data-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+
+}
+
+.data-box {
+
+    background: var(--soft);
+
+    border-radius: 10px;
+
+    padding: 11px;
+
+}
+
+.data-title {
+
+    font-size: 7px;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+    margin-bottom: 6px;
+
+}
+
+.data-value {
+
+    font-size: 10px;
+
+    line-height: 1.45;
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile {
+
+    margin-top: 16px;
+
+}
+
+.profile-title {
+
+    margin-bottom: 9px;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+}
+
+.profile-row {
+
+    margin-bottom: 8px;
+
+}
+
+.profile-label {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 4px;
+
+    font-size: 8px;
+
+    color: var(--muted);
+
+}
+
+.profile-track {
+
+    height: 5px;
+
+    background: var(--soft);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+.profile-fill {
+
+    height: 100%;
+
+    background: var(--text);
+
+    border-radius: 10px;
+
+    transition:
+        width .25s ease;
+
+}
+
+
+/* =========================================================
+   ROUTE
+========================================================= */
+
+.route {
+
+    margin-top: 14px;
+
+    padding: 14px;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(124,58,237,.10),
+            var(--soft)
+        );
+
+    border:
+        1px solid
+        rgba(124,58,237,.18);
+
+}
+
+.route-title {
+
+    color: var(--accent);
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    margin-bottom: 7px;
+
+}
+
+.route-text {
+
+    font-size: 10px;
+
+    line-height: 1.55;
+
+}
+
+.route-direction {
+
+    display: inline-block;
+
+    margin-top: 8px;
+
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    background: var(--card);
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+}
+
+
+/* =========================================================
+   TARGET
+========================================================= */
+
+.target {
+
+    margin-top: 14px;
+
+    padding: 15px;
+
+}
+
+.target-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+
+}
+
+.target-title {
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+.target-value {
+
+    color: var(--accent);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+}
+
+input[type="range"] {
+
+    width: 100%;
+
+    accent-color: var(--accent);
+
+}
+
+.target-info {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap: 7px;
+
+    margin-top: 10px;
+
+}
+
+.target-box {
+
+    padding: 9px;
+
+    border-radius: 8px;
+
+    background: var(--soft);
+
+    text-align: center;
+
+}
+
+.target-box span {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 7px;
+
+    color: var(--muted);
+
+}
+
+.target-box strong {
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls {
+
+    display: flex;
+
+    gap: 7px;
+
+    margin-top: 12px;
+
+}
+
+button {
+
+    border:
+        1px solid var(--line);
+
+    background: var(--card);
+
+    color: var(--text);
+
+    border-radius: 9px;
+
+    padding: 10px 7px;
+
+    font-size: 9px;
+
+    cursor: pointer;
+
+}
+
+.controls button {
+
+    flex: 1;
+
+}
+
+button:active {
+
+    transform: scale(.97);
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search {
+
+    display: flex;
+
+    gap: 7px;
+
+    margin-top: 12px;
+
+}
+
+.search input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    padding:
+        10px 11px;
+
+    border:
+        1px solid var(--line);
+
+    border-radius: 9px;
+
+    background: var(--card);
+
+    color: var(--text);
+
+    outline: none;
+
+    font-size: 9px;
+
+}
+
+.search button {
+
+    width: 85px;
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+.history {
+
+    margin-top: 14px;
+
+    padding: 15px;
+
+}
+
+.history-head {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 9px;
+
+}
+
+.history-title {
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+.clear {
+
+    border: none;
+
+    padding: 3px;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+}
+
+.history-list {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+}
+
+.history-item {
+
+    padding:
+        6px 8px;
+
+    border:
+        1px solid var(--line);
+
+    background: var(--soft);
+
+    border-radius: 6px;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    margin-top: 17px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 7px;
+
+    line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:520px) {
+
+    body {
+
+        padding:
+            12px 7px 35px;
+
+    }
+
+    .title {
+
+        font-size: 22px;
+
+    }
+
+    .frequency {
+
+        font-size: 31px;
+
+    }
+
+    .visual {
+
+        height: 320px;
+
+    }
+
+    .chart {
+
+        padding-left: 61px;
+
+    }
+
+    .grid {
+
+        left: 61px;
+
+    }
+
+    .label {
+
+        width: 53px;
+
+    }
+
+    .bar {
+
+        font-size: 7px;
+
+    }
+
+    .data-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- ======================================================
+     HEADER
+====================================================== -->
+
+<header class="header">
+
+    <div class="top">
+
+        <div class="eyebrow">
+            Interactive symbolic spectrum
+        </div>
+
+        <button
+            class="theme"
+            id="themeButton"
+        >
+            ◐
+        </button>
+
+    </div>
+
+
+    <div class="title">
+        Vibrational Spectrum PRO
+    </div>
+
+
+    <div class="subtitle">
+        Sistema visual interactivo para explorar
+        frecuencia, geometría, movimiento y estados
+        simbólicos.
+    </div>
+
+
+    <div class="status">
+
+        <span class="status-dot"></span>
+
+        Visual Resonance Engine · ONLINE
+
+    </div>
+
+</header>
+
+
+<!-- ======================================================
+     FREQUENCY + VISUAL
+====================================================== -->
+
+<section class="card">
+
+
+<div class="frequency-header">
+
+    <div>
+
+        <span
+            class="frequency"
+            id="frequency"
+        >
+            500
+        </span>
+
+        <span class="unit">
+            Hz
+        </span>
+
+    </div>
+
+
+    <div class="zone">
+
+        <strong id="zoneName">
+            Gabriel
+        </strong>
+
+        ZONA ACTUAL
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     CANVAS
+====================================================== -->
+
+<div class="visual">
+
+
+<canvas
+    id="visualCanvas"
+>
+</canvas>
+
+
+<div class="visual-overlay">
+
+    <div class="visual-mode">
+        LIVE FIELD
+    </div>
+
+</div>
+
+
+<div class="visual-readout">
+
+    <div
+        class="readout-value"
+        id="visualIntensity"
+    >
+        50%
+    </div>
+
+    <div class="readout-label">
+        intensidad
+    </div>
+
+</div>
+
+
+</div>
+
+
+<!-- ======================================================
+     CHART
+====================================================== -->
+
+<div class="chart-section">
+
+
+<div
+    class="chart"
+    id="chart"
+>
+
+
+<div class="grid">
+
+    <div
+        class="grid-line"
+        style="left:0%"
+    ></div>
+
+    <div
+        class="grid-line"
+        style="left:11.111%"
+    ></div>
+
+    <div
+        class="grid-line"
+        style="left:27.777%"
+    ></div>
+
+    <div
+        class="grid-line"
+        style="left:44.444%"
+    ></div>
+
+    <div
+        class="grid-line"
+        style="left:61.111%"
+    ></div>
+
+    <div
+        class="grid-line"
+        style="left:72.222%"
+    ></div>
+
+    <div
+        class="grid-line"
+        style="left:83.333%"
+    ></div>
+
+    <div
+        class="grid-line"
+        style="left:100%"
+    ></div>
+
+</div>
+
+
+<div
+    class="target-marker"
+    id="targetMarker"
+>
+
+    <div
+        class="target-label"
+        id="targetLabel"
+    >
+        OBJETIVO
+    </div>
+
+</div>
+
+
+<div
+    class="marker"
+    id="marker"
+>
+
+    <div
+        class="marker-label"
+        id="markerLabel"
+    >
+        500 Hz
+    </div>
+
+</div>
+
+
+<!-- ZADQUIEL -->
+
+<div class="row">
+
+    <div class="label">
+        Zadquiel
+    </div>
+
+    <div class="bar-area">
+
+        <div
+            class="bar zadquiel"
+            data-name="Zadquiel"
+            data-min="100"
+            data-max="200"
+            style="
+                left:0%;
+                width:11.111%;
+            "
+        >
+            Zadquiel
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RAFAEL -->
+
+<div class="row">
+
+    <div class="label">
+        Rafael
+    </div>
+
+    <div class="bar-area">
+
+        <div
+            class="bar rafael"
+            data-name="Rafael"
+            data-min="200"
+            data-max="350"
+            style="
+                left:11.111%;
+                width:16.666%;
+            "
+        >
+            Rafael
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MIGUEL -->
+
+<div class="row">
+
+    <div class="label">
+        Miguel
+    </div>
+
+    <div class="bar-area">
+
+        <div
+            class="bar miguel"
+            data-name="Miguel"
+            data-min="350"
+            data-max="500"
+            style="
+                left:27.777%;
+                width:16.666%;
+            "
+        >
+            Miguel
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- GABRIEL -->
+
+<div class="row">
+
+    <div class="label">
+        Gabriel
+    </div>
+
+    <div class="bar-area">
+
+        <div
+            class="bar gabriel"
+            data-name="Gabriel"
+            data-min="500"
+            data-max="650"
+            style="
+                left:44.444%;
+                width:16.666%;
+            "
+        >
+            Gabriel
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- URIEL -->
+
+<div class="row">
+
+    <div class="label">
+        Uriel
+    </div>
+
+    <div class="bar-area">
+
+        <div
+            class="bar uriel"
+            data-name="Uriel"
+            data-min="650"
+            data-max="750"
+            style="
+                left:61.111%;
+                width:11.111%;
+            "
+        >
+            Uriel
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- JOFIEL -->
+
+<div class="row">
+
+    <div class="label">
+        Jofiel
+    </div>
+
+    <div class="bar-area">
+
+        <div
+            class="bar jofiel"
+            data-name="Jofiel"
+            data-min="750"
+            data-max="850"
+            style="
+                left:72.222%;
+                width:11.111%;
+            "
+        >
+            Jofiel
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CHAMUEL -->
+
+<div class="row">
+
+    <div class="label">
+        Chamuel
+    </div>
+
+    <div class="bar-area">
+
+        <div
+            class="bar chamuel"
+            data-name="Chamuel"
+            data-min="850"
+            data-max="1000"
+            style="
+                left:83.333%;
+                width:16.666%;
+            "
+        >
+            Chamuel
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="axis">
+
+    <div
+        class="tick"
+        style="left:0%"
+    >
+        100
+    </div>
+
+    <div
+        class="tick"
+        style="left:11.111%"
+    >
+        200
+    </div>
+
+    <div
+        class="tick"
+        style="left:27.777%"
+    >
+        350
+    </div>
+
+    <div
+        class="tick"
+        style="left:44.444%"
+    >
+        500
+    </div>
+
+    <div
+        class="tick"
+        style="left:61.111%"
+    >
+        650
+    </div>
+
+    <div
+        class="tick"
+        style="left:72.222%"
+    >
+        750
+    </div>
+
+    <div
+        class="tick"
+        style="left:83.333%"
+    >
+        850
+    </div>
+
+    <div
+        class="tick"
+        style="left:100%"
+    >
+        1000
+    </div>
+
+    <div class="axis-title">
+        FRECUENCIA SIMBÓLICA (Hz) →
+    </div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+<!-- ======================================================
+     INFO
+====================================================== -->
+
+<section class="card info">
+
+
+<div class="info-header">
+
+    <div
+        class="info-name"
+        id="infoName"
+    >
+        Gabriel
+    </div>
+
+    <div
+        class="info-range"
+        id="infoRange"
+    >
+        500–650 Hz
+    </div>
+
+</div>
+
+
+<div class="info-content">
+
+
+<div
+    class="description"
+    id="description"
+>
+</div>
+
+
+<div class="data-grid">
+
+
+<div class="data-box">
+
+    <div class="data-title">
+        Estado
+    </div>
+
+    <div
+        class="data-value"
+        id="state"
+    ></div>
+
+</div>
+
+
+<div class="data-box">
+
+    <div class="data-title">
+        Cualidad
+    </div>
+
+    <div
+        class="data-value"
+        id="quality"
+    ></div>
+
+</div>
+
+
+<div class="data-box">
+
+    <div class="data-title">
+        Bloqueo
+    </div>
+
+    <div
+        class="data-value"
+        id="block"
+    ></div>
+
+</div>
+
+
+<div class="data-box">
+
+    <div class="data-title">
+        Práctica
+    </div>
+
+    <div
+        class="data-value"
+        id="practice"
+    ></div>
+
+</div>
+
+
+</div>
+
+
+<div class="profile">
+
+    <div class="profile-title">
+        Perfil dinámico
+    </div>
+
+
+    <div class="profile-row">
+
+        <div class="profile-label">
+
+            <span>
+                Claridad
+            </span>
+
+            <span id="clarityValue">
+                0%
+            </span>
+
+        </div>
+
+        <div class="profile-track">
+
+            <div
+                class="profile-fill"
+                id="clarity"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="profile-row">
+
+        <div class="profile-label">
+
+            <span>
+                Expresión
+            </span>
+
+            <span id="expressionValue">
+                0%
+            </span>
+
+        </div>
+
+        <div class="profile-track">
+
+            <div
+                class="profile-fill"
+                id="expression"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="profile-row">
+
+        <div class="profile-label">
+
+            <span>
+                Protección
+            </span>
+
+            <span id="protectionValue">
+                0%
+            </span>
+
+        </div>
+
+        <div class="profile-track">
+
+            <div
+                class="profile-fill"
+                id="protection"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="profile-row">
+
+        <div class="profile-label">
+
+            <span>
+                Integración
+            </span>
+
+            <span id="integrationValue">
+                0%
+            </span>
+
+        </div>
+
+        <div class="profile-track">
+
+            <div
+                class="profile-fill"
+                id="integration"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="route">
+
+    <div class="route-title">
+        Ruta de transición
+    </div>
+
+    <div
+        class="route-text"
+        id="routeText"
+    ></div>
+
+    <div
+        class="route-direction"
+        id="direction"
+    ></div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     TARGET
+====================================================== -->
+
+<section class="card target">
+
+
+<div class="target-header">
+
+    <div class="target-title">
+        FRECUENCIA OBJETIVO
+    </div>
+
+    <div
+        class="target-value"
+        id="targetValue"
+    >
+        850 Hz
+    </div>
+
+</div>
+
+
+<input
+    id="targetSlider"
+    type="range"
+    min="100"
+    max="1000"
+    value="850"
+    step="1"
+>
+
+
+<div class="target-info">
+
+
+<div class="target-box">
+
+    <span>
+        Objetivo
+    </span>
+
+    <strong id="targetZone">
+        Jofiel
+    </strong>
+
+</div>
+
+
+<div class="target-box">
+
+    <span>
+        Distancia
+    </span>
+
+    <strong id="distance">
+        350 Hz
+    </strong>
+
+</div>
+
+
+<div class="target-box">
+
+    <span>
+        Dirección
+    </span>
+
+    <strong id="targetDirection">
+        ↑
+    </strong>
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+<!-- ======================================================
+     SEARCH
+====================================================== -->
+
+<div class="search">
+
+    <input
+        id="searchInput"
+        placeholder="Buscar: culpa, claridad, miedo..."
+    >
+
+    <button id="searchButton">
+        Buscar
+    </button>
+
+</div>
+
+
+<!-- ======================================================
+     CONTROLS
+====================================================== -->
+
+<div class="controls">
+
+    <button id="lower">
+        ← −10
+    </button>
+
+    <button id="reset">
+        500 Hz
+    </button>
+
+    <button id="higher">
+        +10 →
+    </button>
+
+</div>
+
+
+<!-- ======================================================
+     HISTORY
+====================================================== -->
+
+<section class="card history">
+
+
+<div class="history-head">
+
+    <div class="history-title">
+        HISTORIAL
+    </div>
+
+    <button
+        class="clear"
+        id="clearHistory"
+    >
+        Limpiar
+    </button>
+
+</div>
+
+
+<div
+    class="history-list"
+    id="historyList"
+></div>
+
+
+</section>
+
+
+<div class="footer">
+
+    VIBRATIONAL SPECTRUM PRO · VISUAL RESONANCE ENGINE<br>
+
+    Modelo simbólico interactivo.
+    Las frecuencias y asociaciones mostradas no constituyen
+    mediciones científicas.
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATA
+========================================================= */
+
+var zones = [
+
+    {
+        name: "Zadquiel",
+        min: 100,
+        max: 200,
+
+        state: "Duelo · culpa · tristeza",
+
+        quality: "Transmutación",
+
+        block: "Aferramiento al pasado",
+
+        practice:
+            "Aceptar lo ocurrido sin convertirlo en identidad",
+
+        description:
+            "Zona simbólicamente asociada con transformación emocional, liberación y cierre de ciclos.",
+
+        exit:
+            "Reconoce la emoción sin convertirla en identidad. Convierte la carga en comprensión.",
+
+        direction:
+            "→ Rafael · Recuperación"
+    },
+
+    {
+        name: "Rafael",
+        min: 200,
+        max: 350,
+
+        state: "Recuperación · equilibrio",
+
+        quality: "Sanación",
+
+        block: "Negación del desgaste",
+
+        practice:
+            "Descanso, cuidado y reconstrucción",
+
+        description:
+            "Zona simbólicamente vinculada con recuperación, equilibrio y restauración.",
+
+        exit:
+            "Deja de luchar contra todo al mismo tiempo. Recupera recursos y reconstruye.",
+
+        direction:
+            "→ Miguel · Protección"
+    },
+
+    {
+        name: "Miguel",
+        min: 350,
+        max: 500,
+
+        state: "Determinación · protección",
+
+        quality: "Voluntad",
+
+        block: "Miedo · indecisión",
+
+        practice:
+            "Establecer límites y actuar",
+
+        description:
+            "Zona simbólicamente asociada con voluntad, protección, decisión y límites.",
+
+        exit:
+            "Identifica qué estás evitando y toma una decisión concreta.",
+
+        direction:
+            "→ Gabriel · Expresión"
+    },
+
+    {
+        name: "Gabriel",
+        min: 500,
+        max: 650,
+
+        state: "Expresión consciente",
+
+        quality: "Comunicación",
+
+        block:
+            "Silenciar lo necesario",
+
+        practice:
+            "Comunicar con claridad",
+
+        description:
+            "Zona simbólicamente asociada con expresión, comunicación y creatividad.",
+
+        exit:
+            "Transforma la emoción acumulada en comunicación consciente.",
+
+        direction:
+            "→ Uriel · Claridad"
+    },
+
+    {
+        name: "Uriel",
+        min: 650,
+        max: 750,
+
+        state: "Comprensión · claridad",
+
+        quality: "Discernimiento",
+
+        block: "Confusión",
+
+        practice:
+            "Observar antes de reaccionar",
+
+        description:
+            "Zona simbólicamente relacionada con comprensión, discernimiento y observación.",
+
+        exit:
+            "Separa hechos de interpretaciones y decide desde aquello que realmente sabes.",
+
+        direction:
+            "→ Jofiel · Conciencia"
+    },
+
+    {
+        name: "Jofiel",
+        min: 750,
+        max: 850,
+
+        state: "Conciencia · perspectiva",
+
+        quality: "Comprensión",
+
+        block:
+            "Pensamiento repetitivo",
+
+        practice:
+            "Cambiar la perspectiva",
+
+        description:
+            "Zona simbólicamente asociada con percepción, aprendizaje y reconocimiento de patrones.",
+
+        exit:
+            "Cambia el ángulo desde el que estás observando el problema.",
+
+        direction:
+            "→ Chamuel · Integración"
+    },
+
+    {
+        name: "Chamuel",
+        min: 850,
+        max: 1000,
+
+        state: "Integración · conexión",
+
+        quality: "Aceptación",
+
+        block: "Separación",
+
+        practice:
+            "Integrar las partes en conflicto",
+
+        description:
+            "Zona simbólicamente asociada con integración, conexión y aceptación.",
+
+        exit:
+            "Intenta comprender las partes que están en conflicto en lugar de eliminarlas.",
+
+        direction:
+            "Zona superior del modelo · Integración"
+    }
+
+];
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+var canvas =
+    document.getElementById(
+        "visualCanvas"
+    );
+
+var ctx =
+    canvas.getContext("2d");
+
+var chart =
+    document.getElementById(
+        "chart"
+    );
+
+var marker =
+    document.getElementById(
+        "marker"
+    );
+
+var targetMarker =
+    document.getElementById(
+        "targetMarker"
+    );
+
+var markerLabel =
+    document.getElementById(
+        "markerLabel"
+    );
+
+var targetLabel =
+    document.getElementById(
+        "targetLabel"
+    );
+
+
+/* =========================================================
+   TEXT ELEMENTS
+========================================================= */
+
+var frequencyElement =
+    document.getElementById(
+        "frequency"
+    );
+
+var zoneNameElement =
+    document.getElementById(
+        "zoneName"
+    );
+
+var infoName =
+    document.getElementById(
+        "infoName"
+    );
+
+var infoRange =
+    document.getElementById(
+        "infoRange"
+    );
+
+var description =
+    document.getElementById(
+        "description"
+    );
+
+var state =
+    document.getElementById(
+        "state"
+    );
+
+var quality =
+    document.getElementById(
+        "quality"
+    );
+
+var block =
+    document.getElementById(
+        "block"
+    );
+
+var practice =
+    document.getElementById(
+        "practice"
+    );
+
+var routeText =
+    document.getElementById(
+        "routeText"
+    );
+
+var direction =
+    document.getElementById(
+        "direction"
+    );
+
+var targetSlider =
+    document.getElementById(
+        "targetSlider"
+    );
+
+var targetValue =
+    document.getElementById(
+        "targetValue"
+    );
+
+var targetZone =
+    document.getElementById(
+        "targetZone"
+    );
+
+var distance =
+    document.getElementById(
+        "distance"
+    );
+
+var targetDirection =
+    document.getElementById(
+        "targetDirection"
+    );
+
+var historyList =
+    document.getElementById(
+        "historyList"
+    );
+
+var visualIntensity =
+    document.getElementById(
+        "visualIntensity"
+    );
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+var profile = {
+
+    clarity:
+        document.getElementById(
+            "clarity"
+        ),
+
+    expression:
+        document.getElementById(
+            "expression"
+        ),
+
+    protection:
+        document.getElementById(
+            "protection"
+        ),
+
+    integration:
+        document.getElementById(
+            "integration"
+        ),
+
+    clarityValue:
+        document.getElementById(
+            "clarityValue"
+        ),
+
+    expressionValue:
+        document.getElementById(
+            "expressionValue"
+        ),
+
+    protectionValue:
+        document.getElementById(
+            "protectionValue"
+        ),
+
+    integrationValue:
+        document.getElementById(
+            "integrationValue"
+        )
+
+};
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+var currentFrequency = 500;
+
+var targetFrequency = 850;
+
+var history = [];
+
+var particles = [];
+
+var time = 0;
+
+var visualWidth = 0;
+
+var visualHeight = 0;
+
+
+/* =========================================================
+   ZONE
+========================================================= */
+
+function getZone(frequency) {
+
+    var i;
+
+    for (
+        i = 0;
+        i < zones.length;
+        i++
+    ) {
+
+        if (
+            frequency >= zones[i].min &&
+            frequency <= zones[i].max
+        ) {
+
+            return zones[i];
+
+        }
+
+    }
+
+    return zones[zones.length - 1];
+
+}
+
+
+/* =========================================================
+   NORMALIZE
+========================================================= */
+
+function normalizedFrequency() {
+
+    return (
+        currentFrequency - 100
+    ) / 900;
+
+}
+
+
+/* =========================================================
+   FREQUENCY → COLOR
+========================================================= */
+
+function frequencyColor(frequency) {
+
+    var stops = [
+
+        {
+            f: 100,
+            c: [233,30,99]
+        },
+
+        {
+            f: 200,
+            c: [76,175,80]
+        },
+
+        {
+            f: 350,
+            c: [33,150,243]
+        },
+
+        {
+            f: 500,
+            c: [156,39,176]
+        },
+
+        {
+            f: 650,
+            c: [0,150,136]
+        },
+
+        {
+            f: 750,
+            c: [255,193,7]
+        },
+
+        {
+            f: 850,
+            c: [255,105,180]
+        },
+
+        {
+            f: 1000,
+            c: [255,82,82]
+        }
+
+    ];
+
+
+    var a =
+        stops[0];
+
+    var b =
+        stops[stops.length - 1];
+
+
+    var i;
+
+    for (
+        i = 0;
+        i < stops.length - 1;
+        i++
+    ) {
+
+        if (
+            frequency >= stops[i].f &&
+            frequency <= stops[i + 1].f
+        ) {
+
+            a = stops[i];
+
+            b = stops[i + 1];
+
+            break;
+
+        }
+
+    }
+
+
+    var t =
+        (
+            frequency - a.f
+        ) /
+        (
+            b.f - a.f
+        );
+
+
+    t =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                t
+            )
+        );
+
+
+    var r =
+        Math.round(
+            a.c[0] +
+            (
+                b.c[0] -
+                a.c[0]
+            ) * t
+        );
+
+    var g =
+        Math.round(
+            a.c[1] +
+            (
+                b.c[1] -
+                a.c[1]
+            ) * t
+        );
+
+    var blue =
+        Math.round(
+            a.c[2] +
+            (
+                b.c[2] -
+                a.c[2]
+            ) * t
+        );
+
+
+    return {
+        r: r,
+        g: g,
+        b: blue
+    };
+
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+function createParticle() {
+
+    var angle =
+        Math.random() *
+        Math.PI *
+        2;
+
+    var radius =
+        25 +
+        Math.random() *
+        150;
+
+
+    return {
+
+        angle: angle,
+
+        radius: radius,
+
+        speed:
+            .1 +
+            Math.random() *
+            .5,
+
+        size:
+            0.5 +
+            Math.random() *
+            2,
+
+        offset:
+            Math.random() *
+            1000,
+
+        orbit:
+            Math.random() >
+
+            .5
+                ? 1
+                : -1
+
+    };
+
+}
+
+
+function initParticles() {
+
+    particles = [];
+
+    var count =
+        130;
+
+    var i;
+
+    for (
+        i = 0;
+        i < count;
+        i++
+    ) {
+
+        particles.push(
+            createParticle()
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RESIZE CANVAS
+========================================================= */
+
+function resizeCanvas() {
+
+    var rect =
+        canvas.getBoundingClientRect();
+
+    var ratio =
+        window.devicePixelRatio ||
+        1;
+
+
+    visualWidth =
+        rect.width;
+
+    visualHeight =
+        rect.height;
+
+
+    canvas.width =
+        visualWidth * ratio;
+
+    canvas.height =
+        visualHeight * ratio;
+
+
+    ctx.setTransform(
+        ratio,
+        0,
+        0,
+        ratio,
+        0,
+        0
+    );
+
+}
+
+
+/* =========================================================
+   DRAW BACKGROUND
+========================================================= */
+
+function drawBackground(color) {
+
+    var gradient =
+        ctx.createRadialGradient(
+            visualWidth / 2,
+            visualHeight / 2,
+            0,
+            visualWidth / 2,
+            visualHeight / 2,
+            visualWidth * .7
+        );
+
+
+    gradient.addColorStop(
+        0,
+        "rgba(" +
+        color.r +
+        "," +
+        color.g +
+        "," +
+        color.b +
+        ",0.12)"
+    );
+
+
+    gradient.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle =
+        gradient;
+
+    ctx.fillRect(
+        0,
+        0,
+        visualWidth,
+        visualHeight
+    );
+
+}
+
+
+/* =========================================================
+   DRAW PARTICLES
+========================================================= */
+
+function drawParticles(
+    centerX,
+    centerY,
+    color,
+    intensity
+) {
+
+    var i;
+
+    for (
+        i = 0;
+        i < particles.length;
+        i++
+    ) {
+
+        var p =
+            particles[i];
+
+
+        var radius =
+            p.radius *
+            (
+                .65 +
+                intensity *
+                .75
+            );
+
+
+        var angle =
+            p.angle +
+            time *
+            .001 *
+            p.speed *
+            (
+                .4 +
+                intensity *
+                2
+            ) *
+            p.orbit;
+
+
+        var x =
+            centerX +
+            Math.cos(angle) *
+            radius;
+
+        var y =
+            centerY +
+            Math.sin(angle) *
+            radius;
+
+
+        var alpha =
+            .15 +
+            (
+                Math.sin(
+                    time * .002 +
+                    p.offset
+                ) + 1
+            ) * .25;
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            p.size *
+            (
+                .7 +
+                intensity
+            ),
+            0,
+            Math.PI * 2
+        );
+
+
+        ctx.fillStyle =
+            "rgba(" +
+            color.r +
+            "," +
+            color.g +
+            "," +
+            color.b +
+            "," +
+            alpha +
+            ")";
+
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAW RINGS
+========================================================= */
+
+function drawRings(
+    centerX,
+    centerY,
+    color,
+    intensity
+) {
+
+    var base =
+        35 +
+        intensity *
+        80;
+
+
+    var i;
+
+    for (
+        i = 0;
+        i < 7;
+        i++
+    ) {
+
+        var pulse =
+            Math.sin(
+                time *
+                .002 *
+                (
+                    .5 +
+                    intensity
+                ) +
+                i *
+                .9
+            );
+
+
+        var radius =
+            base +
+            i *
+            28 +
+            pulse *
+            7;
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            centerX,
+            centerY,
+            radius,
+            0,
+            Math.PI * 2
+        );
+
+
+        ctx.lineWidth =
+            1 +
+            intensity *
+            1.2;
+
+
+        ctx.strokeStyle =
+            "rgba(" +
+            color.r +
+            "," +
+            color.g +
+            "," +
+            color.b +
+            "," +
+            (
+                .07 +
+                intensity *
+                .06
+            ) +
+            ")";
+
+
+        ctx.stroke();
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAW RADIAL GEOMETRY
+========================================================= */
+
+function drawGeometry(
+    centerX,
+    centerY,
+    color,
+    intensity
+) {
+
+    var points =
+        6 +
+        Math.round(
+            intensity * 10
+        );
+
+
+    var radius =
+        50 +
+        intensity *
+        75;
+
+
+    var rotation =
+        time *
+        .00025;
+
+
+    ctx.beginPath();
+
+
+    var i;
+
+    for (
+        i = 0;
+        i < points;
+        i++
+    ) {
+
+        var angle =
+            rotation +
+            (
+                Math.PI * 2 /
+                points
+            ) *
+            i;
+
+
+        var wave =
+            Math.sin(
+                time * .003 +
+                i
+            ) *
+            (
+                5 +
+                intensity *
+                12
+            );
+
+
+        var r =
+            radius +
+            wave;
+
+
+        var x =
+            centerX +
+            Math.cos(angle) *
+            r;
+
+        var y =
+            centerY +
+            Math.sin(angle) *
+            r;
+
+
+        if (
+            i === 0
+        ) {
+
+            ctx.moveTo(
+                x,
+                y
+            );
+
+        } else {
+
+            ctx.lineTo(
+                x,
+                y
+            );
+
+        }
+
+    }
+
+
+    ctx.closePath();
+
+
+    ctx.lineWidth =
+        1.2 +
+        intensity * 1.5;
+
+
+    ctx.strokeStyle =
+        "rgba(" +
+        color.r +
+        "," +
+        color.g +
+        "," +
+        color.b +
+        ",.5)";
+
+
+    ctx.stroke();
+
+
+    /* inner geometry */
+
+    ctx.beginPath();
+
+
+    for (
+        i = 0;
+        i < points;
+        i++
+    ) {
+
+        var a =
+            rotation * -1 +
+            (
+                Math.PI * 2 /
+                points
+            ) *
+            i;
+
+
+        var r2 =
+            radius *
+            .52;
+
+
+        var px =
+            centerX +
+            Math.cos(a) *
+            r2;
+
+        var py =
+            centerY +
+            Math.sin(a) *
+            r2;
+
+
+        if (
+            i === 0
+        ) {
+
+            ctx.moveTo(
+                px,
+                py
+            );
+
+        } else {
+
+            ctx.lineTo(
+                px,
+                py
+            );
+
+        }
+
+    }
+
+
+    ctx.closePath();
+
+    ctx.strokeStyle =
+        "rgba(" +
+        color.r +
+        "," +
+        color.g +
+        "," +
+        color.b +
+        ",.25)";
+
+    ctx.stroke();
+
+}
+
+
+/* =========================================================
+   DRAW CORE
+========================================================= */
+
+function drawCore(
+    centerX,
+    centerY,
+    color,
+    intensity
+) {
+
+    var pulse =
+        Math.sin(
+            time *
+            .004 *
+            (
+                .5 +
+                intensity * 2
+            )
+        );
+
+
+    var radius =
+        16 +
+        intensity * 28 +
+        pulse * 3;
+
+
+    var gradient =
+        ctx.createRadialGradient(
+            centerX,
+            centerY,
+            0,
+            centerX,
+            centerY,
+            radius * 2.5
+        );
+
+
+    gradient.addColorStop(
+        0,
+        "rgba(" +
+        color.r +
+        "," +
+        color.g +
+        "," +
+        color.b +
+        ",.75)"
+    );
+
+
+    gradient.addColorStop(
+        .35,
+        "rgba(" +
+        color.r +
+        "," +
+        color.g +
+        "," +
+        color.b +
+        ",.22)"
+    );
+
+
+    gradient.addColorStop(
+        1,
+        "rgba(" +
+        color.r +
+        "," +
+        color.g +
+        "," +
+        color.b +
+        ",0)"
+    );
+
+
+    ctx.fillStyle =
+        gradient;
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        centerX,
+        centerY,
+        radius * 2.5,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        centerX,
+        centerY,
+        radius,
+        0,
+        Math.PI * 2
+    );
+
+
+    ctx.fillStyle =
+        "rgba(" +
+        color.r +
+        "," +
+        color.g +
+        "," +
+        color.b +
+        ",.22)";
+
+
+    ctx.fill();
+
+
+    ctx.lineWidth = 1.5;
+
+    ctx.strokeStyle =
+        "rgba(" +
+        color.r +
+        "," +
+        color.g +
+        "," +
+        color.b +
+        ",.8)";
+
+
+    ctx.stroke();
+
+
+    /* center */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        centerX,
+        centerY,
+        4 +
+        intensity * 3,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fillStyle =
+        "rgba(255,255,255,.9)";
+
+    ctx.fill();
+
+}
+
+
+/* =========================================================
+   VISUAL LOOP
+========================================================= */
+
+function renderVisual() {
+
+    time++;
+
+    ctx.clearRect(
+        0,
+        0,
+        visualWidth,
+        visualHeight
+    );
+
+
+    var color =
+        frequencyColor(
+            currentFrequency
+        );
+
+
+    var intensity =
+        normalizedFrequency();
+
+
+    visualIntensity.textContent =
+        Math.round(
+            intensity * 100
+        ) + "%";
+
+
+    drawBackground(
+        color
+    );
+
+
+    var centerX =
+        visualWidth / 2;
+
+    var centerY =
+        visualHeight / 2;
+
+
+    drawRings(
+        centerX,
+        centerY,
+        color,
+        intensity
+    );
+
+
+    drawParticles(
+        centerX,
+        centerY,
+        color,
+        intensity
+    );
+
+
+    drawGeometry(
+        centerX,
+        centerY,
+        color,
+        intensity
+    );
+
+
+    drawCore(
+        centerX,
+        centerY,
+        color,
+        intensity
+    );
+
+
+    requestAnimationFrame(
+        renderVisual
+    );
+
+}
+
+
+/* =========================================================
+   CHART POSITION
+========================================================= */
+
+function chartPercentage(
+    frequency
+) {
+
+    return (
+        frequency - 100
+    ) / 900;
+
+}
+
+
+function updateMarkers() {
+
+    var rect =
+        chart.getBoundingClientRect();
+
+
+    var leftOffset =
+        window.innerWidth <= 520
+            ? 61
+            : 72;
+
+
+    var width =
+        rect.width -
+        leftOffset;
+
+
+    marker.style.left =
+        (
+            leftOffset +
+            width *
+            chartPercentage(
+                currentFrequency
+            )
+        ) + "px";
+
+
+    targetMarker.style.left =
+        (
+            leftOffset +
+            width *
+            chartPercentage(
+                targetFrequency
+            )
+        ) + "px";
+
+
+    markerLabel.textContent =
+        currentFrequency +
+        " Hz";
+
+
+    targetLabel.textContent =
+        "OBJETIVO " +
+        targetFrequency +
+        " Hz";
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function updateProfile() {
+
+    var f =
+        currentFrequency;
+
+
+    var clarity =
+        ((f - 100) / 900) * 100;
+
+
+    var expression =
+        100 -
+        Math.abs(f - 575) /
+        4.75;
+
+
+    var protection =
+        100 -
+        Math.abs(f - 425) /
+        4.25;
+
+
+    var integration =
+        ((f - 700) / 300) *
+        100;
+
+
+    clarity =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                clarity
+            )
+        );
+
+
+    expression =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                expression
+            )
+        );
+
+
+    protection =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                protection
+            )
+        );
+
+
+    integration =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                integration
+            )
+        );
+
+
+    profile.clarity.style.width =
+        clarity + "%";
+
+    profile.expression.style.width =
+        expression + "%";
+
+    profile.protection.style.width =
+        protection + "%";
+
+    profile.integration.style.width =
+        integration + "%";
+
+
+    profile.clarityValue.textContent =
+        Math.round(
+            clarity
+        ) + "%";
+
+    profile.expressionValue.textContent =
+        Math.round(
+            expression
+        ) + "%";
+
+    profile.protectionValue.textContent =
+        Math.round(
+            protection
+        ) + "%";
+
+    profile.integrationValue.textContent =
+        Math.round(
+            integration
+        ) + "%";
+
+}
+
+
+/* =========================================================
+   TARGET
+========================================================= */
+
+function updateTarget() {
+
+    targetValue.textContent =
+        targetFrequency +
+        " Hz";
+
+
+    var target =
+        getZone(
+            targetFrequency
+        );
+
+
+    targetZone.textContent =
+        target.name;
+
+
+    var diff =
+        targetFrequency -
+        currentFrequency;
+
+
+    distance.textContent =
+        Math.abs(
+            diff
+        ) +
+        " Hz";
+
+
+    if (
+        diff > 0
+    ) {
+
+        targetDirection.textContent =
+            "↑";
+
+    } else if (
+        diff < 0
+    ) {
+
+        targetDirection.textContent =
+            "↓";
+
+    } else {
+
+        targetDirection.textContent =
+            "●";
+
+    }
+
+
+    updateMarkers();
+
+}
+
+
+/* =========================================================
+   UI
+========================================================= */
+
+function updateUI() {
+
+    var zone =
+        getZone(
+            currentFrequency
+        );
+
+
+    frequencyElement.textContent =
+        currentFrequency;
+
+
+    zoneNameElement.textContent =
+        zone.name;
+
+
+    infoName.textContent =
+        zone.name;
+
+
+    infoRange.textContent =
+        zone.min +
+        "–" +
+        zone.max +
+        " Hz";
+
+
+    description.textContent =
+        zone.description;
+
+
+    state.textContent =
+        zone.state;
+
+
+    quality.textContent =
+        zone.quality;
+
+
+    block.textContent =
+        zone.block;
+
+
+    practice.textContent =
+        zone.practice;
+
+
+    routeText.textContent =
+        zone.exit;
+
+
+    direction.textContent =
+        zone.direction;
+
+
+    updateProfile();
+
+    updateTarget();
+
+    highlightZone(
+        zone
+    );
+
+
+    addHistory(
+        currentFrequency
+    );
+
+}
+
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+function highlightZone(
+    zone
+) {
+
+    var bars =
+        document.querySelectorAll(
+            ".bar"
+        );
+
+
+    var i;
+
+    for (
+        i = 0;
+        i < bars.length;
+        i++
+    ) {
+
+        if (
+            bars[i].getAttribute(
+                "data-name"
+            ) ===
+            zone.name
+        ) {
+
+            bars[i].classList.add(
+                "active"
+            );
+
+        } else {
+
+            bars[i].classList.remove(
+                "active"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   POINTER → FREQUENCY
+========================================================= */
+
+function setFrequencyFromPointer(
+    clientX
+) {
+
+    var rect =
+        chart.getBoundingClientRect();
+
+
+    var leftOffset =
+        window.innerWidth <= 520
+            ? 61
+            : 72;
+
+
+    var start =
+        rect.left +
+        leftOffset;
+
+
+    var width =
+        rect.width -
+        leftOffset;
+
+
+    var x =
+        clientX -
+        start;
+
+
+    x =
+        Math.max(
+            0,
+            Math.min(
+                width,
+                x
+            )
+        );
+
+
+    currentFrequency =
+        Math.round(
+            100 +
+            (
+                x / width
+            ) * 900
+        );
+
+
+    updateUI();
+
+}
+
+
+/* =========================================================
+   POINTER EVENTS
+========================================================= */
+
+var dragging =
+    false;
+
+
+chart.addEventListener(
+    "pointerdown",
+    function(event) {
+
+        dragging = true;
+
+        if (
+            chart.setPointerCapture
+        ) {
+
+            chart.setPointerCapture(
+                event.pointerId
+            );
+
+        }
+
+        setFrequencyFromPointer(
+            event.clientX
+        );
+
+    }
+);
+
+
+chart.addEventListener(
+    "pointermove",
+    function(event) {
+
+        if (!dragging) {
+
+            return;
+
+        }
+
+        setFrequencyFromPointer(
+            event.clientX
+        );
+
+    }
+);
+
+
+chart.addEventListener(
+    "pointerup",
+    function() {
+
+        dragging = false;
+
+    }
+);
+
+
+chart.addEventListener(
+    "pointercancel",
+    function() {
+
+        dragging = false;
+
+    }
+);
+
+
+/* =========================================================
+   BARS
+========================================================= */
+
+var bars =
+    document.querySelectorAll(
+        ".bar"
+    );
+
+
+var i;
+
+for (
+    i = 0;
+    i < bars.length;
+    i++
+) {
+
+    bars[i].addEventListener(
+        "click",
+        function(event) {
+
+            event.stopPropagation();
+
+
+            var min =
+                Number(
+                    this.getAttribute(
+                        "data-min"
+                    )
+                );
+
+
+            var max =
+                Number(
+                    this.getAttribute(
+                        "data-max"
+                    )
+                );
+
+
+            currentFrequency =
+                Math.round(
+                    (
+                        min +
+                        max
+                    ) / 2
+                );
+
+
+            updateUI();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+document
+    .getElementById(
+        "lower"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            currentFrequency -= 10;
+
+            currentFrequency =
+                Math.max(
+                    100,
+                    currentFrequency
+                );
+
+            updateUI();
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "higher"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            currentFrequency += 10;
+
+            currentFrequency =
+                Math.min(
+                    1000,
+                    currentFrequency
+                );
+
+            updateUI();
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "reset"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            currentFrequency = 500;
+
+            updateUI();
+
+        }
+    );
+
+
+/* =========================================================
+   TARGET
+========================================================= */
+
+targetSlider.addEventListener(
+    "input",
+    function() {
+
+        targetFrequency =
+            Number(
+                targetSlider.value
+            );
+
+        updateTarget();
+
+    }
+);
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchState() {
+
+    var input =
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    if (!input) {
+
+        return;
+
+    }
+
+
+    var i;
+
+    for (
+        i = 0;
+        i < zones.length;
+        i++
+    ) {
+
+        var z =
+            zones[i];
+
+
+        var text =
+            (
+                z.name +
+                " " +
+                z.state +
+                " " +
+                z.quality +
+                " " +
+                z.block +
+                " " +
+                z.practice
+            ).toLowerCase();
+
+
+        if (
+            text.indexOf(
+                input
+            ) !== -1
+        ) {
+
+            currentFrequency =
+                Math.round(
+                    (
+                        z.min +
+                        z.max
+                    ) / 2
+                );
+
+
+            updateUI();
+
+            return;
+
+        }
+
+    }
+
+
+    alert(
+        "No se encontró ese estado en el modelo."
+    );
+
+}
+
+
+document
+    .getElementById(
+        "searchButton"
+    )
+    .addEventListener(
+        "click",
+        searchState
+    );
+
+
+document
+    .getElementById(
+        "searchInput"
+    )
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                searchState();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function addHistory(
+    frequency
+) {
+
+    var last =
+        history.length
+            ? history[
+                history.length - 1
+              ]
+            : null;
+
+
+    if (
+        last === frequency
+    ) {
+
+        renderHistory();
+
+        return;
+
+    }
+
+
+    history.push(
+        frequency
+    );
+
+
+    if (
+        history.length > 15
+    ) {
+
+        history.shift();
+
+    }
+
+
+    renderHistory();
+
+}
+
+
+function renderHistory() {
+
+    historyList.innerHTML =
+        "";
+
+
+    var i;
+
+    for (
+        i = history.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        var item =
+            document.createElement(
+                "div"
+            );
+
+
+        item.className =
+            "history-item";
+
+
+        item.textContent =
+            history[i] +
+            " Hz";
+
+
+        item.addEventListener(
+            "click",
+            createHistoryHandler(
+                history[i]
+            )
+        );
+
+
+        historyList.appendChild(
+            item
+        );
+
+    }
+
+}
+
+
+function createHistoryHandler(
+    frequency
+) {
+
+    return function() {
+
+        currentFrequency =
+            frequency;
+
+        updateUI();
+
+    };
+
+}
+
+
+document
+    .getElementById(
+        "clearHistory"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            history = [];
+
+            renderHistory();
+
+        }
+    );
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+document
+    .getElementById(
+        "themeButton"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            document.body.classList.toggle(
+                "dark"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key ===
+            "ArrowLeft"
+        ) {
+
+            currentFrequency -= 10;
+
+        }
+
+
+        if (
+            event.key ===
+            "ArrowRight"
+        ) {
+
+            currentFrequency += 10;
+
+        }
+
+
+        currentFrequency =
+            Math.max(
+                100,
+                Math.min(
+                    1000,
+                    currentFrequency
+                )
+            );
+
+
+        if (
+            event.key === "ArrowLeft" ||
+            event.key === "ArrowRight"
+        ) {
+
+            updateUI();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    function() {
+
+        resizeCanvas();
+
+        updateMarkers();
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+resizeCanvas();
+
+initParticles();
+
+updateUI();
+
+renderVisual();
+
+</script>
+
+</body>
+</html>
