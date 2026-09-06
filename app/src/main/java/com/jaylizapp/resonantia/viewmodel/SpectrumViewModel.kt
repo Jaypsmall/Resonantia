@@ -11,7 +11,9 @@ import kotlin.math.abs
 data class SpectrumState(
     val currentFrequency: Int = 500,
     val targetFrequency: Int = 850,
-    val history: List<Int> = emptyList()
+    val history: List<Int> = emptyList(),
+    val searchResult: Zone? = null,
+    val lastSearchQuery: String = ""
 )
 
 class SpectrumViewModel : ViewModel() {
@@ -24,7 +26,8 @@ class SpectrumViewModel : ViewModel() {
             val newHistory = (_state.value.history + newFreq).takeLast(15)
             _state.value = _state.value.copy(
                 currentFrequency = newFreq,
-                history = newHistory
+                history = newHistory,
+                searchResult = null // Limpiamos resultado al movernos manualmente
             )
         }
     }
@@ -43,18 +46,33 @@ class SpectrumViewModel : ViewModel() {
 
     fun searchState(query: String) {
         val lowerQuery = query.lowercase().trim()
-        if (lowerQuery.isEmpty()) return
-
-        val zone = zones.find {
-            it.name.lowercase().contains(lowerQuery) ||
-            it.state.lowercase().contains(lowerQuery) ||
-            it.quality.lowercase().contains(lowerQuery) ||
-            it.block.lowercase().contains(lowerQuery) ||
-            it.practice.lowercase().contains(lowerQuery)
+        if (lowerQuery.isEmpty()) {
+            _state.value = _state.value.copy(searchResult = null, lastSearchQuery = "")
+            return
         }
+
+        val zone = zones.find { z ->
+            z.name.lowercase().contains(lowerQuery) ||
+            z.state.lowercase().contains(lowerQuery) ||
+            z.keywords.any { it.lowercase().contains(lowerQuery) } ||
+            z.quality.lowercase().contains(lowerQuery) ||
+            z.description.lowercase().contains(lowerQuery)
+        }
+
+        _state.value = _state.value.copy(
+            searchResult = zone,
+            lastSearchQuery = query
+        )
 
         zone?.let {
+            // Opcional: Podríamos actualizar la frecuencia automáticamente o no.
+            // Para que el usuario vea la descripción primero, quizás mejor solo mostrar el resultado.
+            // Pero el usuario pidió "a que frecuencia corresponde", así que lo llevamos allí.
             updateFrequency((it.min + it.max) / 2)
         }
+    }
+    
+    fun clearSearch() {
+        _state.value = _state.value.copy(searchResult = null, lastSearchQuery = "")
     }
 }

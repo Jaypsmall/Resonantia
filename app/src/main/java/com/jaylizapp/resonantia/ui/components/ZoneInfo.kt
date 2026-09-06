@@ -15,11 +15,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jaylizapp.resonantia.data.Zone
+import com.jaylizapp.resonantia.data.zones
 import kotlin.math.abs
 
 @Composable
 fun ZoneInfo(
     frequency: Int,
+    targetFrequency: Int,
     zone: Zone,
     modifier: Modifier = Modifier
 ) {
@@ -71,7 +73,7 @@ fun ZoneInfo(
         Spacer(modifier = Modifier.height(14.dp))
 
         // Route
-        TransitionRoute(zone)
+        TransitionRoute(frequency, targetFrequency, zone)
     }
 }
 
@@ -173,7 +175,27 @@ fun ProfileBar(label: String, progress: Float) {
 }
 
 @Composable
-fun TransitionRoute(zone: Zone) {
+fun TransitionRoute(currentFreq: Int, targetFreq: Int, currentZone: Zone) {
+    val isTargetHigher = targetFreq > currentFreq
+    val isTargetLower = targetFreq < currentFreq
+    val isSameZone = targetFreq in currentZone.min..currentZone.max
+    
+    val targetZone = zones.find { targetFreq in it.min..it.max } ?: currentZone
+    
+    val directionText = when {
+        isSameZone -> "Ya te encuentras en la zona del objetivo."
+        isTargetHigher -> "Ascendiendo hacia ${targetZone.name}"
+        isTargetLower -> "Descendiendo hacia ${targetZone.name}"
+        else -> "Manteniendo resonancia"
+    }
+    
+    val arrow = when {
+        isSameZone -> "●"
+        isTargetHigher -> "↑"
+        isTargetLower -> "↓"
+        else -> "●"
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -197,7 +219,7 @@ fun TransitionRoute(zone: Zone) {
         )
         Spacer(modifier = Modifier.height(7.dp))
         Text(
-            text = zone.exit,
+            text = if (isTargetHigher) currentZone.exit else "Para reducir la intensidad, enfócate en la integración y la calma.",
             fontSize = 10.sp,
             lineHeight = 15.sp,
             color = MaterialTheme.colorScheme.onSurface
@@ -210,9 +232,10 @@ fun TransitionRoute(zone: Zone) {
                 .padding(horizontal = 8.dp, vertical = 5.dp)
         ) {
             Text(
-                text = zone.direction,
+                text = "$arrow $directionText",
                 fontSize = 8.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+                fontWeight = FontWeight.Bold
             )
         }
     }

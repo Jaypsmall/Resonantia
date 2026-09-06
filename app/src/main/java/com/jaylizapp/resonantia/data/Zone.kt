@@ -14,7 +14,8 @@ data class Zone(
     val exit: String,
     val direction: String,
     val color: Color,
-    val secondaryColor: Color
+    val secondaryColor: Color,
+    val keywords: List<String> = emptyList()
 )
 
 val zones = listOf(
@@ -30,7 +31,8 @@ val zones = listOf(
         exit = "Reconoce la emoción sin convertirla en identidad. Convierte la carga en comprensión.",
         direction = "→ Rafael · Recuperación",
         color = Color(0xFFE91E63),
-        secondaryColor = Color.White
+        secondaryColor = Color.White,
+        keywords = listOf("culpa", "duelo", "tristeza", "arrepentimiento", "pesadez", "estancamiento", "perdón", "pasado", "liberación", "cierre", "ciclos", "carga")
     ),
     Zone(
         name = "Rafael",
@@ -44,7 +46,8 @@ val zones = listOf(
         exit = "Deja de luchar contra todo al mismo tiempo. Recupera recursos y reconstruye.",
         direction = "→ Miguel · Protección",
         color = Color(0xFFB2DFDB),
-        secondaryColor = Color(0xFF004D40)
+        secondaryColor = Color(0xFF004D40),
+        keywords = listOf("recuperación", "equilibrio", "sanación", "descanso", "alivio", "renovación", "paz", "salud", "cuidado", "restauración", "vitalidad")
     ),
     Zone(
         name = "Miguel",
@@ -58,7 +61,8 @@ val zones = listOf(
         exit = "Identifica qué estás evitando y toma una decisión concreta.",
         direction = "→ Gabriel · Expresión",
         color = Color(0xFFE3F2FD),
-        secondaryColor = Color(0xFF1565C0)
+        secondaryColor = Color(0xFF1565C0),
+        keywords = listOf("determinación", "protección", "voluntad", "coraje", "límites", "fuerza", "acción", "decisión", "miedo", "seguridad", "liderazgo", "valor")
     ),
     Zone(
         name = "Gabriel",
@@ -72,7 +76,8 @@ val zones = listOf(
         exit = "Transforma la emoción acumulada en comunicación consciente.",
         direction = "→ Uriel · Claridad",
         color = Color(0xFFF3E5F5),
-        secondaryColor = Color(0xFF6A1B9A)
+        secondaryColor = Color(0xFF6A1B9A),
+        keywords = listOf("expresión", "comunicación", "creatividad", "voz", "verdad", "mensaje", "arte", "hablar", "escuchar", "ideas", "inspiración", "claridad verbal")
     ),
     Zone(
         name = "Uriel",
@@ -86,7 +91,8 @@ val zones = listOf(
         exit = "Separa hechos de interpretaciones y decide desde aquello que realmente sabes.",
         direction = "→ Jofiel · Conciencia",
         color = Color(0xFFC8E6C9),
-        secondaryColor = Color(0xFF2E7D32)
+        secondaryColor = Color(0xFF2E7D32),
+        keywords = listOf("comprensión", "claridad", "discernimiento", "luz", "visión", "conocimiento", "sabiduría", "verdad", "lógica", "entendimiento", "brillantez")
     ),
     Zone(
         name = "Jofiel",
@@ -100,7 +106,8 @@ val zones = listOf(
         exit = "Cambia el ángulo desde el que estás observando el problema.",
         direction = "→ Chamuel · Integración",
         color = Color(0xFFF8BBD0),
-        secondaryColor = Color(0xFF880E4F)
+        secondaryColor = Color(0xFF880E4F),
+        keywords = listOf("conciencia", "perspectiva", "percepción", "aprendizaje", "belleza", "iluminación", "patrones", "inteligencia", "observación", "espíritu")
     ),
     Zone(
         name = "Chamuel",
@@ -114,6 +121,7 @@ val zones = listOf(
         exit = "Intenta comprender las partes que están en conflicto en lugar de eliminarlas.",
         direction = "Zona superior del modelo · Integración",
         color = Color(0xFFFFD6E7),
-        secondaryColor = Color(0xFF880E4F)
+        secondaryColor = Color(0xFF880E4F),
+        keywords = listOf("integración", "conexión", "aceptación", "amor", "unidad", "plenitud", "paz superior", "compasión", "armonía", "gratitud", "serenidad")
     )
 )

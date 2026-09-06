@@ -28,7 +28,8 @@ fun SpectrumChart(
     currentFrequency: Int,
     targetFrequency: Int,
     onFrequencySelected: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    height: androidx.compose.ui.unit.Dp = 320.dp
 ) {
     val ticks = listOf(100, 200, 350, 500, 650, 750, 850, 1000)
 
@@ -37,7 +38,7 @@ fun SpectrumChart(
             .fillMaxWidth()
             .padding(18.dp)
     ) {
-        BoxWithConstraints(modifier = Modifier.fillMaxWidth().height(320.dp)) {
+        BoxWithConstraints(modifier = Modifier.fillMaxWidth().height(height)) {
             val chartWidth = maxWidth
             
             // Interaction layer
@@ -89,12 +90,14 @@ fun SpectrumChart(
             }
 
             Column(modifier = Modifier.fillMaxSize()) {
+                val rowHeight = height / zones.size
                 zones.forEach { zone ->
                     val isActive = currentFrequency in zone.min..zone.max
                     ZoneRow(
                         zone = zone,
                         isActive = isActive,
                         chartWidth = chartWidth,
+                        rowHeight = rowHeight,
                         onZoneClick = { onFrequencySelected((zone.min + zone.max) / 2) }
                     )
                 }
@@ -226,6 +229,7 @@ fun ZoneRow(
     zone: Zone,
     isActive: Boolean,
     chartWidth: androidx.compose.ui.unit.Dp,
+    rowHeight: androidx.compose.ui.unit.Dp,
     onZoneClick: () -> Unit
 ) {
     val start = (zone.min - 100) / 900f
@@ -235,7 +239,7 @@ fun ZoneRow(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(42.dp),
+            .height(rowHeight),
         contentAlignment = Alignment.CenterStart
     ) {
         Box(
