@@ -2,17 +2,17 @@
 
 **Resonantia** es una aplicación nativa para Android desarrollada en **Kotlin** y **Jetpack Compose**. Su propósito es proporcionar una herramienta interactiva de exploración vibracional y espectro simbólico, relacionando frecuencias sonoras (Hz) con geometría sagrada/armónica, estados de conciencia y perfiles emocionales/mentales.
 
-Creada con ❤️ por **JAYLIZ**.
-
 **https://github.com/Jaypsmall/Resonantia/releases/download/android-app/Resonantia_v1.0.4.apk**
 
 ---
 
 ## 📸 Capturas de Pantalla
 
-| Menú Principal & Navegación | Espectro Vibracional (Modo Oscuro) | Análisis de Zona & Transiciones | Modo Claro |
-| :---: | :---: | :---: | :---: |
-| *(Agrega captura del menú)* | *(Agrega captura del espectro)* | *(Agrega captura de detalles)* | *(Agrega captura en modo claro)* |
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/fe99ef62-5389-47d0-92aa-c186790b8364" width="30%" />
+  <img src="https://github.com/user-attachments/assets/d5d5d97c-b8d9-482d-8951-dfa69858102a" width="30%" />
+  <img src="https://github.com/user-attachments/assets/94e5fb39-4107-40d4-ad39-cd0b91a3a8f6" width="30%" />
+</p>
 
 ---
 
@@ -50,14 +50,10 @@ Creada con ❤️ por **JAYLIZ**.
 - **JDK:** 17 o superior
 - **Dispositivo de prueba / Emulador:** Android 7.0 (API Level 24) o superior
 
-### Pasos para clonar y ejecutar
+---
 
-```bash
-# 1. Clonar el repositorio
-git clone [https://github.com/tu-usuario/resonantia-android.git](https://github.com/tu-usuario/resonantia-android.git)
+## 📄 License and Copyright
 
-# 2. Entrar al directorio del proyecto
-cd resonantia-android
+Copyright © 2026. All rights reserved. The source code of this application is the private property of the developer. Unauthorized reproduction, distribution, or modification of this software is prohibited.
 
-# 3. Compilar el proyecto desde la terminal (opcional)
-./gradlew assembleDebug
+*Developed with 🧡 by an independent developer.*
