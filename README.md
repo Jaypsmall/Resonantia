@@ -16,31 +16,29 @@
 
 ---
 
-## ✨ Características Principales
+## ✨ Key Features
 
-- 🔮 **Interactive Symbolic Spectrum:** Exploración geométrica interactiva en tiempo real vinculada a la frecuencia seleccionada.
-- 📡 **Visual Resonance Engine:** Motor de renderizado vectorial/canvas optimizado para simular armónicos, ondas e intensidad visual según el rango de Hz.
-- 🏷️ **Zonas Simbólicas Integradas:**
-  - Rangos asignados: **Zadquiel, Rafael, Miguel, Gabriel, Uriel, Jofiel, Chamuel**.
-  - Detalle por zona: *Estado, Cualidad, Bloqueo y Práctica sugerida*.
-- 📊 **Perfil Dinámico de Estados:** Indicadores visuales interactivos en tiempo real para métricas de *Claridad, Expresión, Protección e Integración*.
-- 🧭 **Rutas de Transición y Frecuencia Objetivo:** Asistencia para sintonizar con estados deseados calculando la distancia (Hz) y dirección del cambio.
-- 🔍 **Búsqueda Inteligente e Historial:** Búsqueda por términos de estado/emoción (ej. *miedo, claridad, culpa...*), selectores de ajuste preciso ($\pm 10\text{ Hz}$) e historial de frecuencias consultadas.
-- 🌓 **Temas Dinámicos (Dark / Light Mode):** Alternancia instantánea de la interfaz para adaptarse a cualquier entorno de uso.
-- 📜 **Historial de Sesiones:** Seguimiento y registro de trabajo con frecuencias.
+- 🔮 **Interactive Symbolic Spectrum:** Real-time interactive geometric exploration linked to the selected frequency.
+- 📡 **Visual Resonance Engine:** Vector/canvas rendering engine optimized to simulate harmonics, waves, and visual intensity based on the Hz range.
+- 🏷️ **Integrated Symbolic Zones:**
+  - Assigned ranges: **Zadkiel, Raphael, Michael, Gabriel, Uriel, Jophiel, Chamuel**.
+  - Zone details: *State, Quality, Blockage, and Suggested Practice*.
+- 📊 **Dynamic State Profile:** Real-time interactive visual indicators for metrics such as *Clarity, Expression, Protection, and Integration*.
+- 🧭 **Transition Paths & Target Frequency:** Assistance in tuning into desired states by calculating the distance (Hz) and direction of the shift.
+- 🔍 **Smart Search & History:** Search by state/emotion terms (e.g., *fear, clarity, guilt...*), fine-tuning selectors ($\pm 10\text{ Hz}$), and a history of queried frequencies.
+- 🌓 **Dynamic Themes (Dark / Light Mode):** Instant interface switching to adapt to any usage environment.
+- 📜 **Session History:** Tracking and logging of frequency-based work.
 
 ---
 
-## 🛠️ Stack Tecnológico
+## 🛠️ Tech Stack
 
-- **Lenguaje:** [Kotlin](https://kotlinlang.org/) (100% Nativo)
-- **UI Framework:** [Jetpack Compose](https://developer.android.com/jetpack/compose) (Diseño declarativo moderno)
-- **Arquitectura:** Clean Architecture + MVVM (Model-View-ViewModel)
-- **Visual Engine:** Custom Canvas / DrawScope para gráficos matemáticos en tiempo real.
-- **Audio Generator:** Android AudioTrack API / Audio Engine para síntesis de frecuencias de sonido en tiempo real.
-- **Asincronía & Flujos:** Kotlin Coroutines + StateFlow / SharedFlow.
-- **Inyección de Dependencias:** Hilt / Koin.
-
+- **Language:** [Kotlin](https://kotlinlang.org/) (100% Native)
+- **UI Framework:** [Jetpack Compose](https://developer.android.com/jetpack/compose) (Modern declarative design)
+- **Architecture:** Clean Architecture + MVVM (Model-View-ViewModel)
+- **Visual Engine:** Custom Canvas / DrawScope for real-time mathematical graphics.
+- **Audio Generator:** Android AudioTrack API / Audio Engine for real-time sound frequency synthesis.
+- **Asynchrony & Flows:** Kotlin Coroutines + StateFlow / SharedFlow. - **Dependency Injection:** Hilt / Koin.
 ---
 
 ## 🚀 Requisitos e Instalación
