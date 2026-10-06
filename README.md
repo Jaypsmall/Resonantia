@@ -1,4 +1,4 @@
-# 🌌 Resonantia v1.0.4 PRO
+# 🌌 Resonantia v1.0.4
 
 **Resonantia** es una aplicación nativa para Android desarrollada en **Kotlin** y **Jetpack Compose**. Su propósito es proporcionar una herramienta interactiva de exploración vibracional y espectro simbólico, relacionando frecuencias sonoras (Hz) con geometría sagrada/armónica, estados de conciencia y perfiles emocionales/mentales.
 
@@ -54,4 +54,4 @@
 
 Copyright © 2026. All rights reserved. The source code of this application is the private property of the developer. Unauthorized reproduction, distribution, or modification of this software is prohibited.
 
-*Developed with 🧡 by an independent developer.*
+*Developed with 💙 by an independent developer.*
